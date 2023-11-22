@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  user_id    Int          @id @unique @default(autoincrement())
+  email      String       
+  nom        String       @map("nom") @db.VarChar(255)
+  prenom     String       @map("prenom") @db.VarChar(255)
+  role       Role
+  resevation Reservation? //relation 1_1 btw rservation and user 
+}
+
+model Reservation {
+
+  idRES   Int      @id @unique @default(autoincrement())
+  nom     String   @map("nom") @db.VarChar(255)
+  prenom  String   @map("prenom") @db.VarChar(255)
+  numtel  Int
+  place   String 
+  seance  Seance[]
+  id_user user     @relation(fields: [iduser], references: [user_id])
+  iduser  Int       @unique
+  //seance           Seance    @relation(fields: [Nseance], references: [ numseance])
+  // Nseance         Int
+}
+
+model Seance {
+  numseance      Int         @id @unique 
+  date           DateTime
+  heure          DateTime
+  titrefilm      Film[]
+  ResId          Reservation @relation(fields: [Reservation_id], references: [idRES])
+  Reservation_id Int
+}
+
+model Film {
+  idfilm      Int    @id @default(autoincrement())
+  genre       Genre
+  titrefilm   String
+  description String
+  duree       Int
+  seance      Seance @relation(fields: [Nseance], references: [numseance])
+  Nseance     Int
+}
+
+enum Role {
+  admin
+  utilisateur
+}
+
+enum Genre {
+  aventure
+  comedie
+  policier
+  science_fiction
+  drame
+}
+
+model salle {
+  numsalle    Int    @unique @default(autoincrement())
+  capacite    Int
+  listeSeance String
+}

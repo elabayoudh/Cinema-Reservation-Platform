@@ -1,0 +1,29 @@
+// This API code allows users to reserve seats in a cinema.
+
+// The first step is to create a new cinema object.
+
+const cinema = new Cinema();
+
+// The second step is to add movies to the cinema.
+
+cinema.addMovie("The Batman");
+cinema.addMovie("Spider-Man: No Way Home");
+cinema.addMovie("The Matrix Resurrections");
+
+// The third step is to create a new user object.
+const user = new User();
+
+// The fourth step is to log the user in.
+user.login("username", "password");
+
+// The fifth step is to select a movie.
+const movie = cinema.getMovie("The Batman");
+
+// The sixth step is to select a seat.
+const seat = movie.getSeat(1, 2);
+
+// The seventh step is to reserve the seat.
+movie.reserveSeat(seat, user);
+
+// The eighth step is to print a confirmation message.
+console.log("Your seat has been reserved!");
